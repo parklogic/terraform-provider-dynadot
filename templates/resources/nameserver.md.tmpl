@@ -1,0 +1,25 @@
+---
+page_title: "dynadot_nameserver Resource - Dynadot"
+description: |-
+  Manage a registered nameserver and its IPv4/IPv6 addresses.
+---
+
+# dynadot_nameserver (Resource)
+
+Registers a child nameserver with Dynadot. The parent domain must meet Dynadot's registration requirements. Changing the hostname replaces the registration. Creation registers one sorted address, then sets the complete IP set; failures after registration retain the hostname in state. Reads and unchanged applies never call `set_ip`.
+
+## Example Usage
+
+{{ tffile "examples/resources/dynadot_nameserver/resource.tf" }}
+
+{{ .SchemaMarkdown | trimspace }}
+
+## Import
+
+Import by hostname; no numeric ID is required.
+
+{{ codefile "shell" "examples/resources/dynadot_nameserver/import.sh" }}
+
+## Recovery and deletion
+
+If registration returns an ambiguous transport error, check Dynadot before retrying and import any registration that succeeded. Registration is not blindly retried after ambiguous failures. An in-use registration cannot be deleted; Terraform retains its state and reports an error until its dependencies are removed. Confirmed absence succeeds on deletion and removes the object during refresh.

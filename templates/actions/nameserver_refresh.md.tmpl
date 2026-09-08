@@ -1,0 +1,25 @@
+---
+page_title: "dynadot_nameserver_refresh Action - Dynadot"
+description: |-
+  Fetch and resend a registered nameserver's live IP addresses.
+---
+
+# dynadot_nameserver_refresh (Action)
+
+Requires Terraform 1.14+. Every invocation fetches live IPs and resends them unchanged through `set_ip`, even if they match existing values. The action is stateless and succeeds only after the PUT succeeds. Missing nameservers and empty or invalid live IP lists fail.
+
+The intended use is the user-supplied Dynadot retention behavior. No retention duration has been verified or is guaranteed. Periodic refresh requires an external scheduler invoking Terraform; normal reads and unchanged applies do not refresh retention.
+
+## Example Usage
+
+Declare `refresh_token` as a string variable. Change it to trigger refresh after an update; creation also triggers refresh. See `examples/complete` for a runnable configuration.
+
+{{ tffile "examples/actions/dynadot_nameserver_refresh/action.tf" }}
+
+## Direct invocation
+
+```shell
+terraform apply -invoke=action.dynadot_nameserver_refresh.primary
+```
+
+{{ .SchemaMarkdown | trimspace }}
