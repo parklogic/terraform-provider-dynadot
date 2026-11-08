@@ -134,6 +134,8 @@ func (c *Client) deferRequests(header string) {
 	}
 	c.mu.Unlock()
 }
+
+// todo: update rate limits
 func tierLimits(value string) (string, bool, time.Duration, int) {
 	value = strings.ToLower(strings.Join(strings.Fields(value), ""))
 	value = strings.NewReplacer("-", "", "_", "").Replace(value)
